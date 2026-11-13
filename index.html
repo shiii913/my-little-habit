@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#eee5f7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="My Little Habit">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>My Little Habit ♡</title>
+<style>
+:root{--bg:#fbf9fd;--paper:#fff;--ink:#40374b;--muted:#9a90a5;--line:#eee8f3;--lav:#eee5f7;--lav2:#dfd0ee;--purple:#9b7cba;--deep:#785c98;--pink:#f5e7f1;--shadow:0 8px 28px rgba(111,83,139,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","PingFang SC",sans-serif;-webkit-font-smoothing:antialiased}
+button,input{font:inherit}button{cursor:pointer}.app{max-width:520px;min-height:100svh;margin:auto;padding:env(safe-area-inset-top) 18px calc(90px + env(safe-area-inset-bottom));}
+.top{display:flex;align-items:center;justify-content:space-between;padding:22px 2px 15px}.brand{font-family:Georgia,serif;font-size:22px;color:var(--deep);letter-spacing:-.5px}.brand small{display:block;font:11px -apple-system,sans-serif;letter-spacing:2px;color:var(--muted);margin-top:3px}.date{font-size:12px;color:var(--muted);text-align:right}
+.hero{background:linear-gradient(135deg,#f1e9f8,#e7d9f1);border-radius:25px;padding:21px 20px 18px;box-shadow:var(--shadow);position:relative;overflow:hidden}.hero:after{content:"✿";position:absolute;right:18px;top:6px;font-size:78px;color:#fff;opacity:.45}.eyebrow{font-size:11px;letter-spacing:1.8px;color:#8d75a5}.hero h1{font-size:23px;font-weight:600;margin:9px 0 5px}.hero p{font-size:12px;color:#857392;margin:0 0 18px}.progress-row{display:flex;align-items:center;gap:12px}.track{height:8px;border-radius:10px;background:#ffffffa8;flex:1;overflow:hidden}.fill{height:100%;background:#9676b5;border-radius:10px;width:0;transition:width .25s}.progress-label{font-size:12px;color:#705887;font-weight:600;white-space:nowrap}
+.section-head{display:flex;justify-content:space-between;align-items:center;margin:25px 2px 12px}.section-head h2{font-size:16px;margin:0;font-weight:650}.sub{font-size:11px;color:var(--muted)}
+.habits{display:grid;gap:10px}.habit{background:var(--paper);border:1px solid var(--line);border-radius:17px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 14px rgba(85,65,104,.035)}.check{width:27px;height:27px;border-radius:9px;border:1.5px solid #d8c9e4;background:#fff;display:grid;place-items:center;color:white;flex:none;font-size:16px}.habit.done .check{background:var(--purple);border-color:var(--purple)}.habit.done .habit-name{text-decoration:line-through;color:#a69cad}.emoji{width:38px;height:38px;border-radius:13px;background:#f6f0fa;display:grid;place-items:center;font-size:19px}.habit-info{flex:1;min-width:0}.habit-name{font-size:14px;font-weight:550}.habit-meta{font-size:10px;color:var(--muted);margin-top:4px}.more{border:0;background:transparent;color:#b4a7bf;font-size:20px;padding:4px 2px}
+.empty{text-align:center;background:white;border:1px dashed #dfd2e9;border-radius:18px;padding:25px 15px;color:var(--muted);font-size:12px}.empty b{display:block;color:var(--deep);font-size:14px;margin-bottom:5px}
+.add{border:1px dashed #cbb8dc;background:#faf7fc;color:var(--deep);border-radius:16px;padding:13px;width:100%;font-size:13px;margin-top:11px}
+.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-top:13px}.week{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.day{font-size:10px;color:var(--muted);padding:5px 0}.day strong{display:grid;place-items:center;width:29px;height:29px;margin:5px auto 0;border-radius:50%;font-size:11px;font-weight:500;color:var(--ink)}.day.today strong{background:var(--lav);color:var(--deep);font-weight:700}.day.has strong{background:#d9c6e9;color:#634b7c}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#faf7fc;border-radius:15px;padding:13px 8px;text-align:center}.stat b{display:block;font-size:20px;color:var(--deep)}.stat span{font-size:10px;color:var(--muted)}
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:9px 20px calc(10px + env(safe-area-inset-bottom));background:#ffffffed;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(3,1fr);z-index:5}.nav button{border:0;background:transparent;color:#aaa0b2;font-size:10px;padding:5px}.nav button span{display:block;font-size:19px;margin-bottom:3px}.nav button.active{color:var(--deep);font-weight:650}
+.view{display:none}.view.active{display:block}
+.modal-back{position:fixed;inset:0;background:#30263d66;display:none;align-items:flex-end;justify-content:center;z-index:10;padding:12px}.modal-back.show{display:flex}.modal{background:#fff;width:min(520px,100%);border-radius:24px;padding:20px;box-shadow:0 20px 60px #24152e33}.modal h3{margin:0 0 15px;font-size:17px}.field{margin:11px 0}.field label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px}.field input{width:100%;border:1px solid var(--line);background:#fcfaff;border-radius:12px;padding:12px;color:var(--ink);outline:none}.emoji-picks{display:flex;gap:8px;flex-wrap:wrap}.emoji-picks button{border:1px solid var(--line);background:#faf7fc;border-radius:10px;padding:8px;font-size:18px}.emoji-picks button.selected{border-color:var(--purple);background:var(--lav)}.actions{display:flex;gap:9px;margin-top:18px}.actions button{flex:1;border:0;border-radius:12px;padding:12px}.primary{background:var(--purple);color:#fff}.secondary{background:#f5f1f8;color:var(--deep)}
+.calendar-head{display:flex;align-items:center;justify-content:space-between;margin:14px 0}.calendar-head button{border:0;background:#f4eef8;border-radius:10px;padding:7px 12px;color:var(--deep)}.month-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}.month-grid .weekday{font-size:10px;color:var(--muted);padding:7px 0}.month-cell{min-height:42px;border-radius:11px;background:#fcfaff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--ink);gap:3px}.month-cell.blank{background:transparent}.month-cell.marked{background:#eee5f7;color:var(--deep);font-weight:650}.dot{width:4px;height:4px;border-radius:50%;background:#9676b5}.note{font-size:11px;line-height:1.6;color:var(--muted);margin-top:14px}
+.toast{position:fixed;left:50%;bottom:95px;transform:translateX(-50%);background:#493b56;color:white;border-radius:30px;padding:10px 16px;font-size:12px;opacity:0;pointer-events:none;transition:opacity .2s;z-index:20;white-space:nowrap}.toast.show{opacity:1}
+@media(min-width:520px){.app{padding-top:15px}.nav{bottom:12px;border:1px solid var(--line);border-radius:18px;width:480px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">My Little Habit ♡<small>SMALL STEPS, SOFT DAYS</small></div><div class="date" id="todayDate"></div></header>
+<main>
+<section class="view active" id="homeView">
+  <div class="hero"><div class="eyebrow">YOUR LITTLE DAILY RITUAL</div><h1 id="greeting">今天也要好好照顾自己</h1><p>每一个小小的坚持，都值得被记录。</p><div class="progress-row"><div class="track"><div class="fill" id="progressFill"></div></div><div class="progress-label" id="progressText">0 / 0 完成</div></div></div>
+  <div class="section-head"><h2>今日习惯 ✿</h2><span class="sub" id="todayLabel"></span></div>
+  <div class="habits" id="habitList"></div><button class="add" id="addBtn">＋ 添加一个小习惯</button>
+  <div class="section-head"><h2>本周足迹</h2><span class="sub">一步一步来就好</span></div><div class="panel"><div class="week" id="weekStrip"></div></div>
+  <div class="section-head"><h2>给自己的小小鼓励</h2></div><div class="panel" style="font-family:Georgia,serif;color:#88739b;font-size:14px;line-height:1.7">“You are blooming at your own pace.”<div class="sub" style="margin-top:5px">你正在按照自己的节奏慢慢盛开。</div></div>
+</section>
+<section class="view" id="calendarView">
+  <div class="section-head"><h2>打卡日历 ♡</h2><span class="sub">每一天都算数</span></div>
+  <div class="panel"><div class="calendar-head"><button id="prevMonth">‹</button><b id="monthTitle"></b><button id="nextMonth">›</button></div><div class="month-grid" id="monthGrid"></div><div class="note">有紫色标记的日期代表当天完成过至少一项习惯。点击日期可以回顾当日完成情况。</div></div>
+  <div class="panel" id="selectedDayPanel"></div>
+</section>
+<section class="view" id="statsView">
+  <div class="section-head"><h2>成长记录 ✧</h2><span class="sub">慢慢积累的闪光时刻</span></div>
+  <div class="stats"><div class="stat"><b id="totalDone">0</b><span>累计打卡</span></div><div class="stat"><b id="bestStreak">0</b><span>最长连续天数</span></div><div class="stat"><b id="overallRate">0%</b><span>今日完成率</span></div></div>
+  <div class="section-head"><h2>习惯小档案</h2></div><div class="habits" id="habitStats"></div>
+  <div class="note">数据保存在当前 iPhone 浏览器的本地存储中。请勿清除 Safari 网站数据，以免丢失记录。</div>
+</section>
+</main>
+</div>
+<nav class="nav"><button class="active" data-view="homeView"><span>⌂</span>今日</button><button data-view="calendarView"><span>▦</span>日历</button><button data-view="statsView"><span>♡</span>统计</button></nav>
+<div class="modal-back" id="modalBack"><div class="modal"><h3 id="modalTitle">添加小习惯</h3><div class="field"><label>习惯名称</label><input id="habitName" maxlength="24" placeholder="例如：学习韩语 30 分钟"></div><div class="field"><label>选择一个小图标</label><div class="emoji-picks" id="emojiPicks"></div></div><div class="actions"><button class="secondary" id="cancelModal">取消</button><button class="primary" id="saveHabit">保存</button></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='myLittleHabit.v1';
+const defaultHabits=[
+ {id:'h1',name:'学习韩语',emoji:'📖'},
+ {id:'h2',name:'喝够 8 杯水',emoji:'💧'},
+ {id:'h3',name:'运动或散步',emoji:'🌷'},
+ {id:'h4',name:'阅读 20 分钟',emoji:'📚'}
+];
+let data=load(), editingId=null, chosenEmoji='🌷';
+let shownMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1);
+let selectedDate=keyDate(new Date());
+const emojis=['📖','💧','🌷','📚','🧘','🏃','☀️','📝','🎧','🥗','🪥','💜','🧹','🧴','🛌','🇰🇷'];
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY));return x&&x.habits?x:{habits:defaultHabits,logs:{}}}catch(e){return {habits:defaultHabits,logs:{}}}}
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function keyDate(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function doneIds(date){return data.logs[date]||[]}
+function isDone(id,date=keyDate(new Date())){return doneIds(date).includes(id)}
+function fmtDate(d){return new Intl.DateTimeFormat('zh-CN',{month:'long',day:'numeric',weekday:'long'}).format(d)}
+function toast(t){let el=document.getElementById('toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),1700)}
+function render(){
+ const now=new Date(), today=keyDate(now), done=doneIds(today).length, total=data.habits.length;
+ document.getElementById('todayDate').textContent=fmtDate(now);
+ document.getElementById('todayLabel').textContent=`${now.getMonth()+1}月${now.getDate()}日`;
+ document.getElementById('progressFill').style.width=(total?done/total*100:0)+'%';
+ document.getElementById('progressText').textContent=`${done} / ${total} 完成`;
+ const list=document.getElementById('habitList');list.innerHTML='';
+ if(!total)list.innerHTML='<div class="empty"><b>从一个小习惯开始吧 ✿</b>添加你想坚持的小事，让每一天更有仪式感。</div>';
+ data.habits.forEach(h=>{let d=isDone(h.id);let el=document.createElement('div');el.className='habit'+(d?' done':'');el.innerHTML=`<button class="check" aria-label="完成打卡">${d?'✓':''}</button><div class="emoji">${h.emoji}</div><div class="habit-info"><div class="habit-name"></div><div class="habit-meta">${d?'今天已完成 · 真棒！':'今天还没打卡'}</div></div><button class="more" aria-label="编辑习惯">···</button>`;el.querySelector('.habit-name').textContent=h.name;el.querySelector('.check').onclick=()=>toggle(h.id);el.querySelector('.more').onclick=()=>openModal(h);list.appendChild(el)});
+ renderWeek();renderCalendar();renderStats();
+}
+function toggle(id){let today=keyDate(new Date()),arr=doneIds(today);data.logs[today]=arr.includes(id)?arr.filter(x=>x!==id):[...arr,id];save();render();toast(arr.includes(id)?'已取消今日打卡':'打卡成功，今天也有好好努力 ♡')}
+function renderWeek(){let box=document.getElementById('weekStrip');box.innerHTML='';let today=new Date();let start=new Date(today);start.setDate(today.getDate()-today.getDay()+1);['一','二','三','四','五','六','日'].forEach((n,i)=>{let d=new Date(start);d.setDate(start.getDate()+i);let k=keyDate(d),has=doneIds(k).length>0;let el=document.createElement('div');el.className='day'+(k===keyDate(today)?' today':'')+(has?' has':'');el.innerHTML=`${n}<strong>${d.getDate()}</strong>`;box.appendChild(el)})}
+function renderCalendar(){let y=shownMonth.getFullYear(),m=shownMonth.getMonth();document.getElementById('monthTitle').textContent=`${y}年 ${m+1}月`;let grid=document.getElementById('monthGrid');grid.innerHTML='';['一','二','三','四','五','六','日'].forEach(x=>{let e=document.createElement('div');e.className='weekday';e.textContent=x;grid.appendChild(e)});let first=new Date(y,m,1),offset=(first.getDay()+6)%7,days=new Date(y,m+1,0).getDate();for(let i=0;i<offset;i++){let e=document.createElement('div');e.className='month-cell blank';grid.appendChild(e)}for(let n=1;n<=days;n++){let d=new Date(y,m,n),k=keyDate(d),count=doneIds(k).length,e=document.createElement('button');e.className='month-cell'+(count?' marked':'');e.innerHTML=`${n}${count?'<i class="dot"></i>':''}`;e.style.border='0';e.onclick=()=>{selectedDate=k;renderSelectedDay()};grid.appendChild(e)}renderSelectedDay()}
+function renderSelectedDay(){let p=document.getElementById('selectedDayPanel'),arr=doneIds(selectedDate);let d=new Date(selectedDate+'T12:00:00');p.innerHTML=`<b style="font-size:13px">${fmtDate(d)}</b><div class="note" id="dayReview"></div>`;let r=p.querySelector('#dayReview');if(!arr.length){r.textContent='这一天还没有打卡记录。每一天都是新的开始。';return}let names=data.habits.filter(h=>arr.includes(h.id)).map(h=>h.emoji+' '+h.name);r.textContent=`完成了 ${arr.length} 项：${names.join('、')}`}
+function streakFor(id){let n=0,d=new Date();while(true){let k=keyDate(d);if(isDone(id,k)){n++;d.setDate(d.getDate()-1)}else break}return n}
+function bestStreakFor(id){let dates=Object.keys(data.logs).sort(),best=0,run=0,prev=null;for(let k of dates){if(!isDone(id,k)){run=0;prev=null;continue}let dt=new Date(k+'T12:00:00');if(prev){let diff=(dt-prev)/86400000;run=diff===1?run+1:1}else run=1;best=Math.max(best,run);prev=dt}return best}
+function renderStats(){let all=Object.values(data.logs).reduce((a,b)=>a+b.length,0),today=doneIds(keyDate(new Date())).length;document.getElementById('totalDone').textContent=all;document.getElementById('bestStreak').textContent=data.habits.reduce((m,h)=>Math.max(m,bestStreakFor(h.id)),0);document.getElementById('overallRate').textContent=(data.habits.length?Math.round(today/data.habits.length*100):0)+'%';let box=document.getElementById('habitStats');box.innerHTML='';data.habits.forEach(h=>{let e=document.createElement('div');e.className='habit';e.innerHTML=`<div class="emoji">${h.emoji}</div><div class="habit-info"><div class="habit-name"></div><div class="habit-meta">当前连续 ${streakFor(h.id)} 天 · 最长 ${bestStreakFor(h.id)} 天</div></div><button class="more">···</button>`;e.querySelector('.habit-name').textContent=h.name;e.querySelector('.more').onclick=()=>openModal(h);box.appendChild(e)})}
+function openModal(h=null){editingId=h?h.id:null;chosenEmoji=h?h.emoji:'🌷';document.getElementById('modalTitle').textContent=h?'编辑小习惯':'添加小习惯';document.getElementById('habitName').value=h?h.name:'';let p=document.getElementById('emojiPicks');p.innerHTML='';emojis.forEach(x=>{let b=document.createElement('button');b.textContent=x;if(x===chosenEmoji)b.classList.add('selected');b.onclick=()=>{chosenEmoji=x;p.querySelectorAll('button').forEach(z=>z.classList.remove('selected'));b.classList.add('selected')};p.appendChild(b)});document.getElementById('modalBack').classList.add('show');setTimeout(()=>document.getElementById('habitName').focus(),100)}
+function closeModal(){document.getElementById('modalBack').classList.remove('show')}
+document.getElementById('addBtn').onclick=()=>openModal();document.getElementById('cancelModal').onclick=closeModal;
+document.getElementById('saveHabit').onclick=()=>{let name=document.getElementById('habitName').value.trim();if(!name){toast('先给习惯起个名字吧');return}if(editingId){let h=data.habits.find(x=>x.id===editingId);if(h){h.name=name;h.emoji=chosenEmoji}if(confirm('要删除这个习惯吗？点击“确定”删除，点击“取消”保存修改。')){data.habits=data.habits.filter(x=>x.id!==editingId);Object.keys(data.logs).forEach(k=>data.logs[k]=data.logs[k].filter(x=>x!==editingId))}}else data.habits.push({id:'h'+Date.now(),name,emoji:chosenEmoji});save();closeModal();render();toast('已保存 ♡')};
+document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');if(b.dataset.view==='calendarView')renderCalendar();if(b.dataset.view==='statsView')renderStats()});
+document.getElementById('prevMonth').onclick=()=>{shownMonth.setMonth(shownMonth.getMonth()-1);renderCalendar()};document.getElementById('nextMonth').onclick=()=>{shownMonth.setMonth(shownMonth.getMonth()+1);renderCalendar()};
+document.getElementById('modalBack').onclick=e=>{if(e.target.id==='modalBack')closeModal()};
+render();
+if ('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body></html>

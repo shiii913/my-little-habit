@@ -1,0 +1,22 @@
+{
+  "name": "My Little Habit",
+  "short_name": "Little Habit",
+  "description": "温柔记录每一天的小习惯",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fbf9fd",
+  "theme_color": "#eee5f7",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
